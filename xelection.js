@@ -64,6 +64,7 @@ const Selection = (function() {
 		let iconSize = iWH + buttonMargin;
 		let top = 0;
 		let left = 0;
+		let offsetLeft = 0;
 		
 		let isToolTipOnTop = true;
 		
@@ -290,14 +291,21 @@ const Selection = (function() {
 		function setTooltipPosition() {
 			const position = selection.getRangeAt(0).getBoundingClientRect();
 			const DOCUMENT_SCROLL_TOP = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-			if (position.top >= iconSize) {
-				top = position.top + DOCUMENT_SCROLL_TOP - iconSize - arrowSize;
+			if (position.top >= iconSize * scale) {
+				top = position.top + DOCUMENT_SCROLL_TOP - (iconSize + arrowSize) * scale;
 				isToolTipOnTop = true;
 			} else {
-				top = position.top + DOCUMENT_SCROLL_TOP + position.height + arrowSize;
+				top = position.top + DOCUMENT_SCROLL_TOP + (position.height + arrowSize) * scale;
 				isToolTipOnTop = false;
 			}
-			left = position.left + position.width / 2 - (iconSize + buttonMargin  / 1.5) *  _icons.length / 2;
+			const width = (iconSize + buttonMargin  / 1.5) * _icons.length;
+			left = position.left + (position.width - width) / 2;
+			if (left < 0) {offsetLeft = -left; left = 0; console.log('A',offsetLeft);}
+			else if ((left + width + 2) > window.screen.width) {
+				offsetLeft = window.screen.width - (left + width + 2);
+				left += offsetLeft;
+				console.log('B',offsetLeft);
+			} else {offsetLeft = 0;}
 		}
 		
 		function moveTooltip() {
@@ -334,13 +342,14 @@ const Selection = (function() {
 			div.appendChild(_icons.icons);
 			
 			const arrow = document.createElement('div');
+			console.log(offsetLeft);
 			arrow.style =
 				'position:absolute;' +
 				'border-left:' + arrowSize + 'px solid transparent;' +
 				'border-right:' + arrowSize + 'px solid transparent;' +
 				'border-top:' + arrowSize + 'px solid ' + bgColor + ';' +
 				(isToolTipOnTop ? 'bottom:-' + (arrowSize - 1) + 'px;' : 'top:-' + (arrowSize - 1) + 'px;transform:rotate(180deg);') +
-				'left:50%;' +
+				'left:' + (!offsetLeft ? '50%;' : (offsetLeft < 0 ? (- offsetLeft + iconSize * (_icons.length + 3) / 2) : (- offsetLeft / 2 + iconSize * _icons.length / 2 + arrowSize)) + 'px;') +
 				'width:0;' +
 				'height:0;' +
 				'scale:' + scale + ';'
