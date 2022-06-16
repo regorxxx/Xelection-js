@@ -1,3 +1,6 @@
+'use strict';
+//16/06/22
+
 const Selection = (function() {
 	function copyTextToClipboard(text) {
 		let textArea = document.createElement('textarea');
