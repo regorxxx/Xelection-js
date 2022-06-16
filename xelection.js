@@ -289,9 +289,6 @@ const Selection = (function() {
 		
 		function setTooltipPosition() {
 			const position = selection.getRangeAt(0).getBoundingClientRect();
-			// const DOCUMENT_SCROLL_TOP = window.pageXOffset || document.documentElement.scrollTop || document.body.scrollTop;
-			// top = position.top + DOCUMENT_SCROLL_TOP - iconSize - arrowSize;
-			// left = position.left + (position.width - iconSize * _icons.length) / 2;
 			const DOCUMENT_SCROLL_TOP = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 			if (position.top >= iconSize) {
 				top = position.top + DOCUMENT_SCROLL_TOP - iconSize - arrowSize;
@@ -300,7 +297,7 @@ const Selection = (function() {
 				top = position.top + DOCUMENT_SCROLL_TOP + position.height + arrowSize;
 				isToolTipOnTop = false;
 			}
-			left = position.left + (position.width - iconSize * _icons.length) / 2;
+			left = position.left + position.width / 2 - (iconSize + buttonMargin  / 1.5) *  _icons.length / 2;
 		}
 		
 		function moveTooltip() {
@@ -343,7 +340,7 @@ const Selection = (function() {
 				'border-right:' + arrowSize + 'px solid transparent;' +
 				'border-top:' + arrowSize + 'px solid ' + bgColor + ';' +
 				(isToolTipOnTop ? 'bottom:-' + (arrowSize - 1) + 'px;' : 'top:-' + (arrowSize - 1) + 'px;transform:rotate(180deg);') +
-				'left:' + (iconSize * _icons.length / 2 - arrowSize) + 'px;' +
+				'left:50%;' +
 				'width:0;' +
 				'height:0;' +
 				'scale:' + scale + ';'
