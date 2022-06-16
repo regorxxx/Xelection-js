@@ -19,6 +19,8 @@
 - Scale configuration option to change overall size.
 ### Changed
 - General code cleanup.
+- Logo with new name (Xelection.js).
+- Demo page updated with new features, links and examples.
 ### Removed
 ### Fixed
 - New popup windows can not access anymore storage from source web.
