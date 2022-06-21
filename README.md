@@ -37,13 +37,17 @@ To get started with Xelection.js, download the [Script](https://raw.githubuserco
     twitter: true,
     search:true,
     copy:true,
-    speak:true,
+    speak:false,
     translate: true,
     dictionary: true,
     image: true,
+    map: false,
+    github: false,
+    email: false,
     print: true,
     backgroundColor: '#dc143c', // Crimson
     iconColor: '#ffffff', // White
+    opacity: 1,
     scale: 1
   }).init();
 </script>
